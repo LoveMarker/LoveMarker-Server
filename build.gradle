@@ -69,7 +69,8 @@ private excludedClassFilesForReport(classDirectories) {
 						"**/exception/**",
 						"**/Mock**",
 						"**/aspect/**",
-						"**/scheduler/**"
+						"**/scheduler/**",
+						"**/global/**"
 				])
 			})
 	)
@@ -99,14 +100,14 @@ jacocoTestCoverageVerification {  // 코드 커버리지를 검증합니다. 규
 			limit {
 				counter = 'BRANCH'
 				value = 'COVEREDRATIO'
-				minimum = 0.0
+				minimum = 0.70
 			}
 
 			// 라인 커버리지를 최소 70% 만족시켜야 합니다.
 			limit {
 				counter = 'LINE'
 				value = 'COVEREDRATIO'
-				minimum = 0.0
+				minimum = 0.70
 			}
 		}
 	}
