@@ -2,6 +2,17 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.5'
 	id 'io.spring.dependency-management' version '1.1.4'
+
+	id 'jacoco'
+	id "org.sonarqube" version "4.4.1.3373"
+}
+
+sonar {
+	properties {
+		property "sonar.projectKey", "lovemarker"
+		property "sonar.organization", "LoveMarker"
+		property "sonar.host.url", "https://sonarcloud.io"
+	}
 }
 
 group = 'com'
@@ -42,4 +53,62 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport  // 테스트 실행 후 항상 report가 생성됩니다.
 }
+
+//jacoco start
+private excludedClassFilesForReport(classDirectories) {
+	classDirectories.setFrom(
+			files(classDirectories.files.collect {
+				fileTree(dir: it, exclude: [
+						"**/Q*",
+						"**/*Application*",
+						"**/*Config*",
+						"**/*Response*",
+						"**/*Request*",
+						"**/exception/**",
+						"**/Mock**",
+						"**/aspect/**",
+						"**/scheduler/**"
+				])
+			})
+	)
+}
+
+jacoco {
+	toolVersion = "0.8.9"
+}
+jacocoTestReport {
+	dependsOn test  // report를 생성하기 전에 테스트를 실행해야합니다.
+	reports {
+		xml.required = true
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+	}
+	excludedClassFilesForReport(classDirectories)
+	finalizedBy jacocoTestCoverageVerification  // 테스트 실행 후 항상 테스트 커버리지 검증을 실행합니다.
+}
+jacocoTestCoverageVerification {  // 코드 커버리지를 검증합니다. 규칙을 만족하지 못하면 빌드는 실패합니다.
+	excludedClassFilesForReport(classDirectories)
+	violationRules {
+		rule {  // 규칙을 지정합니다.
+			enabled = true
+			element = 'CLASS'  // 클래스 단위로 규칙을 체크합니다.
+
+			// 브랜치 커버리지를 최소 70% 만족시켜야 합니다.
+			limit {
+				counter = 'BRANCH'
+				value = 'COVEREDRATIO'
+				minimum = 0.70
+			}
+
+			// 라인 커버리지를 최소 70% 만족시켜야 합니다.
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.70
+			}
+		}
+	}
+}
+//jacoco end
