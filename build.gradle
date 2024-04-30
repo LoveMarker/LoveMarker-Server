@@ -9,8 +9,8 @@ plugins {
 
 sonar {
 	properties {
-		property "sonar.projectKey", "lovemarker"
-		property "sonar.organization", "LoveMarker"
+		property "sonar.projectKey", "LoveMarker_LoveMarker-Server"
+		property "sonar.organization", "lovemarker"
 		property "sonar.host.url", "https://sonarcloud.io"
 	}
 }
@@ -69,7 +69,8 @@ private excludedClassFilesForReport(classDirectories) {
 						"**/exception/**",
 						"**/Mock**",
 						"**/aspect/**",
-						"**/scheduler/**"
+						"**/scheduler/**",
+						"**/global/**"
 				])
 			})
 	)
