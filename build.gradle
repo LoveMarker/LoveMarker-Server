@@ -10,7 +10,7 @@ plugins {
 sonar {
 	properties {
 		property "sonar.projectKey", "lovemarker"
-		property "sonar.organization", "LoveMarker"
+		property "sonar.organization", "lovemarker"
 		property "sonar.host.url", "https://sonarcloud.io"
 	}
 }
