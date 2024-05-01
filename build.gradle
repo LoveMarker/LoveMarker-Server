@@ -5,6 +5,9 @@ plugins {
 
 	id 'jacoco'
 	id "org.sonarqube" version "4.4.1.3373"
+
+	//RestDocs
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 sonar {
@@ -17,6 +20,11 @@ sonar {
 
 group = 'com'
 version = '0.0.1-SNAPSHOT'
+
+configurations {
+	//RestDocs
+	asciidoctorExt
+}
 
 java {
 	sourceCompatibility = '17'
@@ -49,12 +57,53 @@ dependencies {
 	// hibernate-spatial
 	implementation 'org.hibernate:hibernate-spatial:6.1.7.Final'
 
+	//RestDocs
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 	finalizedBy jacocoTestReport  // 테스트 실행 후 항상 report가 생성됩니다.
 }
+
+//RestDocs start
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+test {
+	outputs.dir snippetsDir
+}
+
+asciidoctor.doFirst {
+	delete file('src/main/resources/static/docs')
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExt'
+	dependsOn test
+}
+
+bootJar {
+	dependsOn asciidoctor
+	from("${asciidoctor.outputDir}/html5") {
+		into 'static/docs'
+	}
+}
+
+tasks.register('copyDocument', Copy) {
+	dependsOn asciidoctor
+	from file("build/docs/asciidoc")
+	into file("src/main/resources/static/docs")
+}
+
+build {
+	dependsOn copyDocument
+}
+//RestDocs end
 
 //jacoco start
 private excludedClassFilesForReport(classDirectories) {
