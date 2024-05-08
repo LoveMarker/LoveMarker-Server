@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SocialToken {
 
-    @Column(name = "social_token")
+    @Column(name = "social_token", nullable = false)
     private String socialToken;
 
     public SocialToken(String socialToken) {

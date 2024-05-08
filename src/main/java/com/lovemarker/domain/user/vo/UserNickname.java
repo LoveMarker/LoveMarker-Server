@@ -16,7 +16,7 @@ public class UserNickname {
 
     private static final int MAX_NICKNAME_LENGTH = 10;
 
-    @Column(name = "nickname")
+    @Column(name = "nickname", nullable = false)
     private String nickname;
 
     public UserNickname(String nickname) {
