@@ -10,13 +10,15 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     // 400
-    REQUEST_VALIDATION_EXCEPTION(HttpStatus.BAD_REQUEST, "잘못된 요청입니다"),
+    REQUEST_VALIDATION_EXCEPTION(HttpStatus.BAD_REQUEST),
+
+    // 404
+    NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND),
 
     // 500
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "알 수 없는 서버 에러가 발생했습니다");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final HttpStatus httpStatus;
-    private final String message;
 
     public int getHttpStatusCode() {
         return httpStatus.value();
