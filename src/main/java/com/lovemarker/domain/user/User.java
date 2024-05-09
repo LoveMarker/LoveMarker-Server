@@ -21,7 +21,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
 
@@ -60,6 +60,14 @@ public class User extends BaseTimeEntity {
 
     public String getNickname() {
         return nickname.getNickname();
+    }
+
+    public String getProvider() {
+        return provider.name();
+    }
+
+    public String getSocialToken() {
+        return socialToken.getSocialToken();
     }
 
     public Couple getCouple() {
