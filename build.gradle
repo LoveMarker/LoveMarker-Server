@@ -119,7 +119,8 @@ private excludedClassFilesForReport(classDirectories) {
 						"**/Mock**",
 						"**/aspect/**",
 						"**/scheduler/**",
-						"**/global/**"
+						"**/global/**",
+						"**/common/**",
 				])
 			})
 	)

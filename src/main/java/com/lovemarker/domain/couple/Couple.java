@@ -31,4 +31,16 @@ public class Couple extends BaseTimeEntity {
         this.anniversary = anniversary;
         this.inviteCode = inviteCode;
     }
+
+    public Long getCoupleId() {
+        return coupleId;
+    }
+
+    public LocalDate getAnniversary() {
+        return anniversary;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
 }
