@@ -6,6 +6,8 @@ import com.lovemarker.domain.memory.vo.AddressInfo;
 import com.lovemarker.domain.memory.vo.MemoryContent;
 import com.lovemarker.domain.memory.vo.MemoryTitle;
 import com.lovemarker.domain.user.User;
+import com.lovemarker.global.constant.ErrorCode;
+import com.lovemarker.global.exception.BadRequestException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -55,11 +57,12 @@ public class Memory extends BaseTimeEntity {
     @OneToMany(mappedBy = "memory", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemoryImage> images = new ArrayList<>();
 
-    public Memory(String title, String content, String address, Point point, Couple couple, User user, List<String> images) {
+    public Memory(String title, String content, String address, Point point, User user, List<String> images) {
         this.title = new MemoryTitle(title);
         this.content = new MemoryContent(content);
         this.addressInfo = new AddressInfo(address, point);
-        this.couple = couple;
+        validateCouple(user);
+        this.couple = user.getCouple();
         this.user = user;
         if (Objects.nonNull(images)) {
             List<MemoryImage> newImages = images.stream()
@@ -67,5 +70,41 @@ public class Memory extends BaseTimeEntity {
                 .toList();
             this.images.addAll(newImages);
         }
+    }
+
+    private void validateCouple(User user) {
+        if (Objects.isNull(user.getCouple())) {
+            throw new BadRequestException(ErrorCode.REQUEST_VALIDATION_EXCEPTION, "커플 정보가 없습니다.");
+        }
+    }
+
+    public Long getMemoryId() {
+        return memoryId;
+    }
+
+    public String getTitle() {
+        return title.getTitle();
+    }
+
+    public String getContent() {
+        return content.getContent();
+    }
+
+    public AddressInfo getAddressInfo() {
+        return addressInfo;
+    }
+
+    public Couple getCouple() {
+        return couple;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public List<String> getImages() {
+        return images.stream()
+            .map(MemoryImage::getUrl)
+            .toList();
     }
 }

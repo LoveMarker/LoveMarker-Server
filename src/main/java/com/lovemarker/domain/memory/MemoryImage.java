@@ -33,4 +33,8 @@ public class MemoryImage {
         this.url = url;
         this.memory = memory;
     }
+
+    public String getUrl() {
+        return url;
+    }
 }
