@@ -5,6 +5,8 @@ import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.user.vo.SocialToken;
 import com.lovemarker.domain.user.vo.SocialType;
 import com.lovemarker.domain.user.vo.UserNickname;
+import com.lovemarker.global.constant.ErrorCode;
+import com.lovemarker.global.exception.BadRequestException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -50,7 +52,10 @@ public class User extends BaseTimeEntity {
         this.socialToken = new SocialToken(socialToken);
     }
 
-    public void makeCouple(Couple couple) {
+    public void connectCouple(Couple couple) {
+        if (this.couple != null) {
+            throw new BadRequestException(ErrorCode.REQUEST_VALIDATION_EXCEPTION, "커플 정보가 존재합니다.");
+        }
         this.couple = couple;
     }
 

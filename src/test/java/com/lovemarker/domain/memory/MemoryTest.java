@@ -32,7 +32,7 @@ class MemoryTest {
         @DisplayName("성공")
         void newMemory() {
             //given
-            user.makeCouple(couple);
+            user.connectCouple(couple);
 
             //when
             Memory memory = new Memory(title, content, addressInfo.getAddress(), addressInfo.getPosition(), user, urls);

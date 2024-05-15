@@ -60,7 +60,7 @@ class UserTest {
         void makeCouple() {
             //given
             //when
-            user.makeCouple(couple);
+            user.connectCouple(couple);
 
             //then
             assertThat(user.getCouple()).isEqualTo(couple);

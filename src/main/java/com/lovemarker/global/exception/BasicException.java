@@ -11,7 +11,11 @@ public abstract class BasicException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
-    public int getErrorCode() {
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
+
+    public int getErrorStatusCode() {
         return errorCode.getHttpStatusCode();
     }
 }
