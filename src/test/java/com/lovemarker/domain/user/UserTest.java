@@ -6,6 +6,7 @@ import static org.assertj.core.api.BDDAssertions.catchException;
 import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.couple.fixture.CoupleFixture;
 import com.lovemarker.domain.user.fixture.UserFixture;
+import com.lovemarker.global.exception.BadRequestException;
 import com.lovemarker.global.exception.NotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -50,7 +51,7 @@ class UserTest {
 
     @Nested
     @DisplayName("Couple 등록 시")
-    class makeCoupleTest {
+    class connectCoupleTest {
 
         User user = UserFixture.user();
         Couple couple = CoupleFixture.couple();
@@ -60,10 +61,23 @@ class UserTest {
         void makeCouple() {
             //given
             //when
-            user.makeCouple(couple);
+            user.connectCouple(couple);
 
             //then
             assertThat(user.getCouple()).isEqualTo(couple);
+        }
+
+        @Test
+        @DisplayName("예외(BadRequestException): 이미 커플 정보가 존재하는 경우")
+        void exceptionWhenCoupleIsNotNull() {
+            //given
+            user.connectCouple(couple);
+
+            //when
+            Exception exception = catchException(() -> user.connectCouple(couple));
+
+            //then
+            assertThat(exception).isInstanceOf(BadRequestException.class);
         }
     }
 }

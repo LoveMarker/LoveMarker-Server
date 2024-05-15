@@ -17,20 +17,20 @@ public class ApiResponseDto<T> {
     private final String message;
     private T data;
 
-    public static ApiResponseDto success(SuccessCode successStatus) {
-        return new ApiResponseDto<>(successStatus.getHttpStatusCode(), true, successStatus.getMessage());
+    public static ApiResponseDto success(SuccessCode successCode) {
+        return new ApiResponseDto<>(successCode.getHttpStatusCode(), true, successCode.getMessage());
     }
 
-    public static <T> ApiResponseDto<T> success(SuccessCode successStatus, T data) {
-        return new ApiResponseDto<T>(successStatus.getHttpStatusCode(), true, successStatus.getMessage(), data);
+    public static <T> ApiResponseDto<T> success(SuccessCode successCode, T data) {
+        return new ApiResponseDto<T>(successCode.getHttpStatusCode(), true, successCode.getMessage(), data);
     }
 
-    public static ApiResponseDto error(ErrorCode errorStatus) {
-        return new ApiResponseDto<>(errorStatus.getHttpStatusCode(), false, errorStatus.getMessage());
+    public static ApiResponseDto error(ErrorCode errorCode) {
+        return new ApiResponseDto<>(errorCode.getHttpStatusCode(), false, errorCode.getMessage());
     }
 
-    public static ApiResponseDto error(ErrorCode errorStatus, String message) {
-        return new ApiResponseDto<>(errorStatus.getHttpStatusCode(), false, message);
+    public static ApiResponseDto error(ErrorCode errorCode, String message) {
+        return new ApiResponseDto<>(errorCode.getHttpStatusCode(), false, message);
     }
 }
 
