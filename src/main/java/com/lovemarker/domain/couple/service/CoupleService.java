@@ -11,6 +11,7 @@ import com.lovemarker.global.exception.NotFoundException;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +21,13 @@ public class CoupleService {
     private final UserRepository userRepository;
     private final InviteCodeStrategy inviteCodeStrategy;
 
+    @Transactional
     public CreateInvitationCodeResponse createInvitationCode(Long userId, LocalDate anniversary) {
         User user = getUserByUserId(userId);
         Couple couple = new Couple(anniversary, getNewInvitationCode());
         user.connectCouple(couple);
-        return CreateInvitationCodeResponse.of(coupleRepository.save(couple));
+        coupleRepository.save(couple);
+        return CreateInvitationCodeResponse.from(couple);
     }
 
     private User getUserByUserId(Long userId) {
