@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import com.lovemarker.base.BaseControllerTest;
 import com.lovemarker.domain.couple.dto.request.CreateInvitationCodeRequest;
+import com.lovemarker.domain.couple.dto.request.JoinCoupleRequest;
 import com.lovemarker.domain.couple.dto.response.CreateInvitationCodeResponse;
 import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
@@ -54,6 +55,38 @@ class CoupleControllerTest extends BaseControllerTest {
                     fieldWithPath("success").type(BOOLEAN).description("성공 여부"),
                     fieldWithPath("message").type(STRING).description("메시지"),
                     fieldWithPath("data.invitationCode").type(STRING).description("초대 코드")
+                )
+            ));
+    }
+
+    @Test
+    @DisplayName("성공: 커플 수락 api 호출 시")
+    void joinCouple() throws Exception {
+        //given
+        Long userId = 1L;
+        String invitationCode = "test_code";
+        JoinCoupleRequest request = new JoinCoupleRequest(invitationCode);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/api/couple/join")
+            .header("userId", userId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request)));
+
+        //then
+        resultActions
+            .andDo(restDocs.document(
+                requestHeaders(
+                    headerWithName("userId").description("유저 아이디")
+                ),
+                requestFields(
+                    fieldWithPath("invitationCode").type(STRING).description("초대 코드")
+                ),
+                responseFields(
+                    fieldWithPath("status").type(NUMBER).description("상태 코드"),
+                    fieldWithPath("success").type(BOOLEAN).description("성공 여부"),
+                    fieldWithPath("message").type(STRING).description("메시지"),
+                    fieldWithPath("data").ignored()
                 )
             ));
     }
