@@ -24,7 +24,7 @@ public class Couple extends BaseTimeEntity {
     @Column(name = "anniversary", nullable = false)
     private LocalDate anniversary;
 
-    @Column(name = "invite_code", nullable = false)
+    @Column(name = "invite_code", nullable = false, unique = true)
     private String inviteCode;
 
     public Couple(LocalDate anniversary, String inviteCode) {

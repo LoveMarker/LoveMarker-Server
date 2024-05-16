@@ -7,6 +7,7 @@ import com.lovemarker.domain.couple.repository.CoupleRepository;
 import com.lovemarker.domain.user.User;
 import com.lovemarker.domain.user.repository.UserRepository;
 import com.lovemarker.global.constant.ErrorCode;
+import com.lovemarker.global.exception.BadRequestException;
 import com.lovemarker.global.exception.NotFoundException;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +31,28 @@ public class CoupleService {
         return CreateInvitationCodeResponse.from(couple);
     }
 
+    @Transactional
+    public void joinCouple(Long userId, String invitationCode) {
+        User user = getUserByUserId(userId);
+        Couple couple = getCoupleByInviteCode(invitationCode);
+        validateJoinCouple(couple.getCoupleId());
+        user.connectCouple(couple);
+    }
+
     private User getUserByUserId(Long userId) {
         return userRepository.findById(userId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_EXCEPTION, "존재하지 않는 유저입니다."));
+    }
+
+    private void validateJoinCouple(Long coupleId) {
+        if (userRepository.countByCouple_CoupleId(coupleId) >= 2) {
+            throw new BadRequestException(ErrorCode.REQUEST_VALIDATION_EXCEPTION, "연결이 완료된 커플입니다.");
+        }
+    }
+
+    private Couple getCoupleByInviteCode(String inviteCode) {
+        return coupleRepository.findByInviteCode(inviteCode)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_EXCEPTION, "존재하지 않는 커플입니다."));
     }
 
     private String getNewInvitationCode() {

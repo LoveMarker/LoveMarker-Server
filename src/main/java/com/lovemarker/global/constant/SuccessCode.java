@@ -13,7 +13,8 @@ public enum SuccessCode {
     LOGIN_SUCCESS(HttpStatus.OK, "로그인에 성공했습니다."),
 
     // 201
-    CREATE_INVITATION_CODE_SUCCESS(HttpStatus.CREATED, "초대 코드 생성을 성공했습니다.");
+    CREATE_INVITATION_CODE_SUCCESS(HttpStatus.CREATED, "초대 코드 생성을 성공했습니다."),
+    JOIN_COUPLE_SUCCESS(HttpStatus.CREATED, "커플 연결을 성공했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
