@@ -50,7 +50,6 @@ class CoupleServiceTest {
         void createInvitationCode() {
             //given
             given(userRepository.findById(anyLong())).willReturn(Optional.ofNullable(user));
-            given(inviteCodeStrategy.generate()).willReturn("INVITE_CODE");
 
             //when
             coupleService.createInvitationCode(1L, anniversary);

@@ -1,6 +1,7 @@
 package com.lovemarker.domain.couple.controller;
 
 import com.lovemarker.domain.couple.dto.request.CreateInvitationCodeRequest;
+import com.lovemarker.domain.couple.dto.request.JoinCoupleRequest;
 import com.lovemarker.domain.couple.dto.response.CreateInvitationCodeResponse;
 import com.lovemarker.domain.couple.service.CoupleService;
 import com.lovemarker.global.constant.SuccessCode;
@@ -27,5 +28,14 @@ public class CoupleController {
     ) {
         return ApiResponseDto.success(SuccessCode.CREATE_INVITATION_CODE_SUCCESS,
             coupleService.createInvitationCode(userId, createInvitationCodeRequest.anniversary()));
+    }
+
+    @PostMapping("/join")
+    public ApiResponseDto joinCouple(
+        @RequestHeader Long userId,
+        @Valid @RequestBody final JoinCoupleRequest joinCoupleRequest
+    ) {
+        coupleService.joinCouple(userId, joinCoupleRequest.invitationCode());
+        return ApiResponseDto.success(SuccessCode.JOIN_COUPLE_SUCCESS);
     }
 }
