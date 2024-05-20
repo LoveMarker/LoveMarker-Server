@@ -55,6 +55,8 @@ dependencies {
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.27'
 	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'com.h2database:h2'
+	// cache
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	// hibernate-spatial
 	implementation 'org.hibernate:hibernate-spatial:6.1.7.Final'
@@ -63,6 +65,10 @@ dependencies {
 	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
+	//JWT
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 }
 
 tasks.named('test') {

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/couple")
 @RequiredArgsConstructor
 public class CoupleController {
-
     private final CoupleService coupleService;
 
     @PostMapping
