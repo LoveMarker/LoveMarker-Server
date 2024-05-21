@@ -4,13 +4,13 @@ import com.lovemarker.domain.couple.dto.request.CreateInvitationCodeRequest;
 import com.lovemarker.domain.couple.dto.request.JoinCoupleRequest;
 import com.lovemarker.domain.couple.dto.response.CreateInvitationCodeResponse;
 import com.lovemarker.domain.couple.service.CoupleService;
+import com.lovemarker.global.config.resolver.UserId;
 import com.lovemarker.global.constant.SuccessCode;
 import com.lovemarker.global.dto.ApiResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +23,7 @@ public class CoupleController {
 
     @PostMapping
     public ApiResponseDto<CreateInvitationCodeResponse> createInvitationCode(
-        @RequestHeader Long userId,
+        @UserId Long userId,
         @Valid @RequestBody final CreateInvitationCodeRequest createInvitationCodeRequest
     ) {
         return ApiResponseDto.success(SuccessCode.CREATE_INVITATION_CODE_SUCCESS,
@@ -32,7 +32,7 @@ public class CoupleController {
 
     @PostMapping("/join")
     public ApiResponseDto joinCouple(
-        @RequestHeader Long userId,
+        @UserId Long userId,
         @Valid @RequestBody final JoinCoupleRequest joinCoupleRequest
     ) {
         coupleService.joinCouple(userId, joinCoupleRequest.invitationCode());

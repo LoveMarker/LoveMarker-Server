@@ -4,7 +4,6 @@ import static javax.management.openmbean.SimpleType.BOOLEAN;
 import static javax.management.openmbean.SimpleType.STRING;
 import static javax.swing.text.html.parser.DTDConstants.NUMBER;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -33,7 +32,7 @@ class CoupleControllerTest extends BaseControllerTest {
         CreateInvitationCodeRequest request = new CreateInvitationCodeRequest(LocalDate.parse("2023-02-15"));
         CreateInvitationCodeResponse response = new CreateInvitationCodeResponse("test_code");
 
-        given(coupleService.createInvitationCode(anyLong(), any())).willReturn(response);
+        given(coupleService.createInvitationCode(any(), any())).willReturn(response);
 
         //when
         ResultActions resultActions = mockMvc.perform(post("/api/couple")
