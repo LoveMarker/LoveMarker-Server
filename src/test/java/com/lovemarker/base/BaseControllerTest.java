@@ -25,6 +25,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @Import(RestDocsConfig.class)
 @ExtendWith(RestDocumentationExtension.class)
 public abstract class BaseControllerTest {
+
     protected MockMvc mockMvc;
 
     @Autowired

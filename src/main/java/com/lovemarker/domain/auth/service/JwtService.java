@@ -18,8 +18,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class JwtService {
+
     @Value("${jwt.secret}")
     private String jwtSecret;
+
     private static final long ACCESS_TOKEN_EXPIRY_TIME = 1000L * 60 * 60 * 2; // 2시간
     private static final long REFRESH_TOKEN_EXPIRY_TIME = 1000L * 60 * 60 * 24 * 14; // 2주
     private static final String CLAIM_NAME = "userId";
