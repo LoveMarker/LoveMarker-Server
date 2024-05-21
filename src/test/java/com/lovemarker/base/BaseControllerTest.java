@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovemarker.base.config.RestDocsConfig;
 import com.lovemarker.domain.couple.service.CoupleService;
+import com.lovemarker.global.config.resolver.UserIdResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @Import(RestDocsConfig.class)
 @ExtendWith(RestDocumentationExtension.class)
 public abstract class BaseControllerTest {
-
     protected MockMvc mockMvc;
 
     @Autowired
@@ -35,6 +35,9 @@ public abstract class BaseControllerTest {
 
     @MockBean
     protected CoupleService coupleService;
+
+    @MockBean
+    protected UserIdResolver userIdResolver;
 
     @BeforeEach
     void setUp(

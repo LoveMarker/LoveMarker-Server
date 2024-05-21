@@ -129,6 +129,8 @@ private excludedClassFilesForReport(classDirectories) {
 						"**/scheduler/**",
 						"**/global/**",
 						"**/common/**",
+						"**/*JwtService*",
+						"**/*TokenCacheService*"
 				])
 			})
 	)
