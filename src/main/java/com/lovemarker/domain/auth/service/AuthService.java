@@ -32,12 +32,16 @@ public class AuthService {
             userRepository.save(user);
         }
 
-        User user = userRepository.findBySocialToken_SocialTokenAndProvider(socialInfo.socialId(), socialType)
-            .orElseThrow(() -> new UserNotFoundException(ErrorCode.NOT_FOUND_USER_EXCEPTION, ErrorCode.NOT_FOUND_USER_EXCEPTION.getMessage()));
+        User user = getUserBySocialInfo(socialInfo.socialId(), socialType);
 
         String accessToken = jwtService.issuedAccessToken(user.getUserId());
         String refreshToken = jwtService.issuedRefreshToken(user.getUserId());
 
         return SignInResponse.of(isRegistered ? "Login" : "Signup", accessToken, refreshToken);
+    }
+
+    private User getUserBySocialInfo(String socialToken, SocialType provider) {
+        return userRepository.findBySocialToken_SocialTokenAndProvider(socialToken, provider)
+            .orElseThrow(() -> new UserNotFoundException(ErrorCode.NOT_FOUND_USER_EXCEPTION, ErrorCode.NOT_FOUND_USER_EXCEPTION.getMessage()));
     }
 }
