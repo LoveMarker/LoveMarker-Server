@@ -1,5 +1,6 @@
 package com.lovemarker.domain.auth.service;
 
+import com.lovemarker.domain.auth.RandomNicknameGenerator;
 import com.lovemarker.domain.auth.dto.response.SignInResponse;
 import com.lovemarker.domain.auth.dto.response.SocialInfoResponse;
 import com.lovemarker.domain.user.User;

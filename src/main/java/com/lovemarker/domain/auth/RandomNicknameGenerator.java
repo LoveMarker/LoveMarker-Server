@@ -1,4 +1,4 @@
-package com.lovemarker.domain.auth.service;
+package com.lovemarker.domain.auth;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;

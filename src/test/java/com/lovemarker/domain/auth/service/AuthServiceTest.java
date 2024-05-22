@@ -5,6 +5,7 @@ import static org.assertj.core.api.BDDAssertions.catchException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import com.lovemarker.domain.auth.RandomNicknameGenerator;
 import com.lovemarker.domain.auth.dto.response.SignInResponse;
 import com.lovemarker.domain.auth.dto.response.SocialInfoResponse;
 import com.lovemarker.domain.user.User;
