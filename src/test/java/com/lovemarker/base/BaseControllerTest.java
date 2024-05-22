@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovemarker.base.config.RestDocsConfig;
+import com.lovemarker.domain.auth.service.AuthService;
 import com.lovemarker.domain.couple.service.CoupleService;
 import com.lovemarker.global.config.resolver.UserIdResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +37,9 @@ public abstract class BaseControllerTest {
 
     @MockBean
     protected CoupleService coupleService;
+
+    @MockBean
+    protected AuthService authService;
 
     @MockBean
     protected UserIdResolver userIdResolver;
