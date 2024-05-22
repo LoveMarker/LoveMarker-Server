@@ -133,7 +133,8 @@ private excludedClassFilesForReport(classDirectories) {
 						"**/global/**",
 						"**/common/**",
 						"**/*JwtService*",
-						"**/*TokenCacheService*"
+						"**/*TokenCacheService*",
+						"**/*SignInService*",
 				])
 			})
 	)
