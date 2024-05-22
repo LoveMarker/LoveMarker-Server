@@ -7,7 +7,6 @@ import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.couple.fixture.CoupleFixture;
 import com.lovemarker.domain.user.fixture.UserFixture;
 import com.lovemarker.global.exception.BadRequestException;
-import com.lovemarker.global.exception.NotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -36,7 +35,7 @@ class UserTest {
         }
 
         @Test
-        @DisplayName("예외(NotFoundException): 잘못된 socialType 인 경우")
+        @DisplayName("예외(IllegalArgumentException): 잘못된 socialType 인 경우")
         void exceptionWhenSocialTypeIsInvalid() {
             //given
             provider = "INVALID_PROVIDER";
@@ -45,7 +44,7 @@ class UserTest {
             Exception exception = catchException(() -> new User(nickname, provider, socialToken));
 
             //then
-            assertThat(exception).isInstanceOf(NotFoundException.class);
+            assertThat(exception).isInstanceOf(IllegalArgumentException.class);
         }
     }
 

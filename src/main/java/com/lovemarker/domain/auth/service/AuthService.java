@@ -22,7 +22,7 @@ public class AuthService {
 
     @Transactional
     public SignInResponse signIn(String token, String type) {
-        SocialType socialType = SocialType.from(type);
+        SocialType socialType = SocialType.valueOf(type);
         SocialInfoResponse socialInfo = socialSignInService.getSocialInfo(token);
 
         boolean isRegistered = userRepository.existsBySocialToken_SocialTokenAndProvider(socialInfo.socialId(), socialType);
