@@ -59,6 +59,10 @@ public class User extends BaseTimeEntity {
         this.couple = couple;
     }
 
+    public void updateUserNickname(String nickname) {
+        this.nickname = new UserNickname(nickname);
+    }
+
     public Long getUserId() {
         return userId;
     }

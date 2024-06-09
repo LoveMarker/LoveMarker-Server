@@ -54,7 +54,7 @@ class UserNicknameTest {
         }
 
         @Test
-        @DisplayName("예외(BadRequestException): 닉네임 10자 초과")
+        @DisplayName("예외(BadRequestException): 닉네임 8자 초과")
         void exceptionWhenNicknameLengthOver10() {
             //given
             String nickname = "test_nickname";

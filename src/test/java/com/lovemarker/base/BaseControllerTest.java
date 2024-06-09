@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovemarker.base.config.RestDocsConfig;
 import com.lovemarker.domain.auth.service.AuthService;
 import com.lovemarker.domain.couple.service.CoupleService;
+import com.lovemarker.domain.user.service.UserService;
 import com.lovemarker.global.config.resolver.UserIdResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +41,9 @@ public abstract class BaseControllerTest {
 
     @MockBean
     protected AuthService authService;
+
+    @MockBean
+    protected UserService userService;
 
     @MockBean
     protected UserIdResolver userIdResolver;
