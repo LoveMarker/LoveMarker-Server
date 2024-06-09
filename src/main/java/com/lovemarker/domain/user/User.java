@@ -48,7 +48,7 @@ public class User extends BaseTimeEntity {
 
     public User(String nickname, String provider, String socialToken) {
         this.nickname = new UserNickname(nickname);
-        this.provider = SocialType.from(provider);
+        this.provider = SocialType.valueOf(provider);
         this.socialToken = new SocialToken(socialToken);
     }
 
