@@ -90,4 +90,39 @@ class UserRepositoryTest extends BaseRepositoryTest {
             assertThat(result).isFalse();
         }
     }
+
+    @Nested
+    @DisplayName("existsByNickname_Nickname 메서드 실행 시")
+    class ExistsByNickname_NicknameTest {
+
+        @Test
+        @DisplayName("성공: true")
+        void existsByNickname_NicknameTrue() {
+            // given
+            User user = UserFixture.user();
+            userRepository.save(user);
+            String nickname = user.getNickname();
+
+            //when
+            boolean result = userRepository.existsByNickname_Nickname(nickname);
+
+            //then
+            assertThat(result).isTrue();
+        }
+
+        @Test
+        @DisplayName("성공: false")
+        void existsByNickname_NicknameFalse() {
+            // given
+            User user = UserFixture.user();
+            userRepository.save(user);
+            String nickname = "new";
+
+            //when
+            boolean result = userRepository.existsByNickname_Nickname(nickname);
+
+            //then
+            assertThat(result).isFalse();
+        }
+    }
 }
