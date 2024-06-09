@@ -14,6 +14,7 @@ public enum ErrorCode {
     MISSING_REQUIRED_INFO_EXCEPTION(HttpStatus.BAD_REQUEST, "필수 입력 항목이 입력되지 않았습니다."),
     MISSING_REQUIRED_HEADER_EXCEPTION(HttpStatus.BAD_REQUEST, "필수 입력 헤더 정보가 입력되지 않았습니다."),
     NULL_ACCESS_TOKEN_EXCEPTION(HttpStatus.BAD_REQUEST, "토큰 값이 없습니다."),
+    DUPLICATE_NICKNAME_EXCEPTION(HttpStatus.BAD_REQUEST, "중복된 닉네임입니다."),
 
     // 401
     ACCESS_TOKEN_TIME_EXPIRED_EXCEPTION(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),

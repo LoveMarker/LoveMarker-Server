@@ -10,5 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     long countByCouple_CoupleId(Long coupleId);
     Optional<User> findBySocialToken_SocialTokenAndProvider(String socialToken, SocialType provider);
     boolean existsBySocialToken_SocialTokenAndProvider(String socialToken, SocialType provider);
+    boolean existsByNickname_Nickname(String nickname);
 
 }
