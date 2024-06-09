@@ -8,6 +8,7 @@ import com.lovemarker.domain.couple.fixture.CoupleFixture;
 import com.lovemarker.domain.user.User;
 import com.lovemarker.domain.user.fixture.UserFixture;
 import com.lovemarker.domain.user.vo.SocialType;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -124,5 +125,33 @@ class UserRepositoryTest extends BaseRepositoryTest {
             //then
             assertThat(result).isFalse();
         }
+    }
+
+    @Nested
+    @DisplayName("findPartnerUser 메서드 실행 시")
+    class FindPartnerUserTest {
+
+        @Test
+        @DisplayName("성공")
+        void findPartnerUser() {
+            //given
+            User user = UserFixture.user();
+            User partner = UserFixture.user();
+            partner.updateUserNickname("partner");
+            Couple couple = CoupleFixture.couple();
+            user.connectCouple(couple);
+            partner.connectCouple(couple);
+            userRepository.save(user);
+            userRepository.save(partner);
+            coupleRepository.save(couple);
+
+            //when
+            Optional<User> result = userRepository.findPartnerUser(couple.getCoupleId(), user.getUserId());
+
+            //then
+            assertThat(result).isNotNull();
+            assertThat(result.get()).isEqualTo(partner);
+        }
+
     }
 }
