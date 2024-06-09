@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserNickname {
 
-    private static final int MAX_NICKNAME_LENGTH = 10;
+    private static final int MAX_NICKNAME_LENGTH = 8;
 
     @Column(name = "nickname", nullable = false)
     private String nickname;
@@ -33,7 +33,7 @@ public class UserNickname {
 
     private void validateNicknameLength(String nickname) {
         if (nickname.length() > MAX_NICKNAME_LENGTH) {
-            throw new BadRequestException(ErrorCode.REQUEST_VALIDATION_EXCEPTION, "닉네임은 최대 10자입니다.");
+            throw new BadRequestException(ErrorCode.REQUEST_VALIDATION_EXCEPTION, "닉네임은 최대 8자입니다.");
         }
     }
 }
