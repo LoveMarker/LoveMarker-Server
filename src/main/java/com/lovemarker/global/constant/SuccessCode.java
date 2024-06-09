@@ -11,6 +11,7 @@ public enum SuccessCode {
 
     // 200
     LOGIN_SUCCESS(HttpStatus.OK, "로그인에 성공했습니다."),
+    UPDATE_USER_NICKNAME_SUCCESS(HttpStatus.OK, "닉네임 변경에 성공했습니다."),
 
     // 201
     CREATE_INVITATION_CODE_SUCCESS(HttpStatus.CREATED, "초대 코드 생성을 성공했습니다."),
