@@ -8,6 +8,7 @@ import com.lovemarker.domain.auth.service.AuthService;
 import com.lovemarker.domain.couple.service.CoupleService;
 import com.lovemarker.domain.user.service.UserService;
 import com.lovemarker.global.config.resolver.UserIdResolver;
+import com.lovemarker.global.image.S3Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,9 @@ public abstract class BaseControllerTest {
 
     @MockBean
     protected UserIdResolver userIdResolver;
+
+    @MockBean
+    protected S3Service s3Service;
 
     @BeforeEach
     void setUp(

@@ -72,6 +72,9 @@ dependencies {
 
 	// google login
 	implementation group: 'com.google.api-client', name: 'google-api-client', version: '1.30.0'
+
+	// S3 AWS
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
 }
 
 tasks.named('test') {
@@ -134,7 +137,7 @@ private excludedClassFilesForReport(classDirectories) {
 						"**/common/**",
 						"**/*JwtService*",
 						"**/*TokenCacheService*",
-						"**/*SignInService*",
+						"**/*SignInService*"
 				])
 			})
 	)
