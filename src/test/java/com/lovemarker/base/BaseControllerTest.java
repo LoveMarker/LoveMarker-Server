@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovemarker.base.config.RestDocsConfig;
 import com.lovemarker.domain.auth.service.AuthService;
 import com.lovemarker.domain.couple.service.CoupleService;
+import com.lovemarker.domain.memory.service.MemoryService;
 import com.lovemarker.domain.user.service.UserService;
 import com.lovemarker.global.config.resolver.UserIdResolver;
 import com.lovemarker.global.image.S3Service;
@@ -45,6 +46,9 @@ public abstract class BaseControllerTest {
 
     @MockBean
     protected UserService userService;
+
+    @MockBean
+    protected MemoryService memoryService;
 
     @MockBean
     protected UserIdResolver userIdResolver;

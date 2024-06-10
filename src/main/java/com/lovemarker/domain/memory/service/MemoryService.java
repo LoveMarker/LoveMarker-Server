@@ -34,7 +34,8 @@ public class MemoryService {
         User user = getUserByUserId(userId);
         validateCoupleConnection(user);
         Memory memory = new Memory(date, title, content, address, getPoint(latitude, longitude), user, images);
-        return CreateMemoryResponse.of(memoryRepository.save(memory).getMemoryId());
+        memoryRepository.save(memory);
+        return CreateMemoryResponse.of(memory.getMemoryId());
     }
 
     private void validateCoupleConnection(User user) {
