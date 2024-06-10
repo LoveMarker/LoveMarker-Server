@@ -29,7 +29,7 @@ public class MemoryService {
 
     @Transactional
     public CreateMemoryResponse createMemory(Long userId, LocalDate date, String title, String content,
-        double latitude, double longitude, String address, List<String> images
+        Double latitude, Double longitude, String address, List<String> images
     ) {
         User user = getUserByUserId(userId);
         validateCoupleConnection(user);
@@ -50,7 +50,7 @@ public class MemoryService {
             .orElseThrow(() -> new UserNotFoundException(ErrorCode.NOT_FOUND_EXCEPTION, "존재하지 않는 유저입니다."));
     }
 
-    private Point getPoint(double latitude, double longitude) {
+    private Point getPoint(Double latitude, Double longitude) {
         return geometryFactory.createPoint(new Coordinate(latitude, longitude));
     }
 }

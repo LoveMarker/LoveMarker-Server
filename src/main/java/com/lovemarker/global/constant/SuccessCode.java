@@ -16,7 +16,8 @@ public enum SuccessCode {
 
     // 201
     CREATE_INVITATION_CODE_SUCCESS(HttpStatus.CREATED, "초대 코드 생성을 성공했습니다."),
-    JOIN_COUPLE_SUCCESS(HttpStatus.CREATED, "커플 연결을 성공했습니다.");
+    JOIN_COUPLE_SUCCESS(HttpStatus.CREATED, "커플 연결을 성공했습니다."),
+    CREATE_MEMORY_SUCCESS(HttpStatus.CREATED, "추억 생성을 성공했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
