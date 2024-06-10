@@ -63,7 +63,6 @@ class MemoryServiceTest {
             //given
             user.connectCouple(couple);
             given(userRepository.findById(anyLong())).willReturn(Optional.ofNullable(user));
-            given(userRepository.countByCouple_CoupleId(any())).willReturn(2L);
 
             //when
             memoryService.createMemory(1L, date, title, content, latitude, longitude, address, images);
@@ -96,19 +95,5 @@ class MemoryServiceTest {
             assertThat(exception).isInstanceOf(ForbiddenException.class);
         }
 
-        @Test
-        @DisplayName("예외(ForbiddenException): 커플 연결이 되지 않은 경우")
-        void exceptionWhenNotCoupleConnected() {
-            //given
-            user.connectCouple(couple);
-            given(userRepository.findById(anyLong())).willReturn(Optional.ofNullable(user));
-            given(userRepository.countByCouple_CoupleId(any())).willReturn(1L);
-
-            //when
-            Exception exception = catchException(() -> memoryService.createMemory(1L, date, title, content, latitude, longitude, address, images));
-
-            //then
-            assertThat(exception).isInstanceOf(ForbiddenException.class);
-        }
     }
 }

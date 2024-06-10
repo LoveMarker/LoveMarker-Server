@@ -1,13 +1,13 @@
 package com.lovemarker.domain.memory;
 
-import com.lovemarker.global.entity.BaseTimeEntity;
 import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.memory.vo.AddressInfo;
 import com.lovemarker.domain.memory.vo.MemoryContent;
 import com.lovemarker.domain.memory.vo.MemoryTitle;
 import com.lovemarker.domain.user.User;
 import com.lovemarker.global.constant.ErrorCode;
-import com.lovemarker.global.exception.BadRequestException;
+import com.lovemarker.global.entity.BaseTimeEntity;
+import com.lovemarker.global.exception.ForbiddenException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -81,7 +81,7 @@ public class Memory extends BaseTimeEntity {
 
     private void validateCouple(User user) {
         if (Objects.isNull(user.getCouple())) {
-            throw new BadRequestException(ErrorCode.REQUEST_VALIDATION_EXCEPTION, "커플 정보가 없습니다.");
+            throw new ForbiddenException(ErrorCode.NO_COUPLE_FORBIDDEN_EXCEPTION, "커플 정보가 없습니다.");
         }
     }
 
