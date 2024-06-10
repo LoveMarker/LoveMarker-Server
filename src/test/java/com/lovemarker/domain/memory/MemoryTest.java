@@ -10,6 +10,7 @@ import com.lovemarker.domain.memory.vo.AddressInfo;
 import com.lovemarker.domain.user.User;
 import com.lovemarker.domain.user.fixture.UserFixture;
 import com.lovemarker.global.exception.BadRequestException;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -21,6 +22,7 @@ class MemoryTest {
     @DisplayName("Memory 생성 시")
     class newMemoryTest {
 
+        LocalDate date = LocalDate.now();
         String title = "test_title";
         String content = "test_content";
         AddressInfo addressInfo = AddressInfoFixture.addressInfo();
@@ -35,7 +37,7 @@ class MemoryTest {
             user.connectCouple(couple);
 
             //when
-            Memory memory = new Memory(title, content, addressInfo.getAddress(), addressInfo.getPosition(), user, urls);
+            Memory memory = new Memory(date, title, content, addressInfo.getAddress(), addressInfo.getPosition(), user, urls);
 
 
             //then
@@ -53,7 +55,7 @@ class MemoryTest {
         void exceptionWhenCoupleIsNull() {
             //given
             //when
-            Exception exception = catchException(() -> new Memory(title, content, addressInfo.getAddress(), addressInfo.getPosition(), user, urls));
+            Exception exception = catchException(() -> new Memory(date, title, content, addressInfo.getAddress(), addressInfo.getPosition(), user, urls));
 
             //then
             assertThat(exception).isInstanceOf(BadRequestException.class);

@@ -24,6 +24,9 @@ public enum ErrorCode {
     INVALID_ACCESS_TOKEN_EXCEPTION(HttpStatus.UNAUTHORIZED, "유효하지 않은 엑세스 토큰입니다."),
     INVALID_GOOGLE_ID_TOKEN_EXCEPTION(HttpStatus.UNAUTHORIZED, "유효하지 않은 구글 아이디 토큰입니다."),
 
+    // 403
+    NO_COUPLE_FORBIDDEN_EXCEPTION(HttpStatus.FORBIDDEN, "커플 기능에 접근할 수 없습니다."),
+
     // 404
     NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "존재하지 않는 리소스입니다."),
     NOT_FOUND_USER_EXCEPTION(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다"),
