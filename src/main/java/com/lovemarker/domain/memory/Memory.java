@@ -20,6 +20,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +37,9 @@ public class Memory extends BaseTimeEntity {
     @Column(name = "memory_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memoryId;
+
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
     @Embedded
     private MemoryTitle title;
@@ -57,7 +61,10 @@ public class Memory extends BaseTimeEntity {
     @OneToMany(mappedBy = "memory", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemoryImage> images = new ArrayList<>();
 
-    public Memory(String title, String content, String address, Point point, User user, List<String> images) {
+    public Memory(LocalDate date, String title, String content, String address, Point point,
+        User user, List<String> images
+    ) {
+        this.date = date;
         this.title = new MemoryTitle(title);
         this.content = new MemoryContent(content);
         this.addressInfo = new AddressInfo(address, point);

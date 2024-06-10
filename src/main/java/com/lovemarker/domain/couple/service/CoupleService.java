@@ -5,6 +5,7 @@ import com.lovemarker.domain.couple.InviteCodeStrategy;
 import com.lovemarker.domain.couple.dto.response.CreateInvitationCodeResponse;
 import com.lovemarker.domain.couple.repository.CoupleRepository;
 import com.lovemarker.domain.user.User;
+import com.lovemarker.domain.user.exception.UserNotFoundException;
 import com.lovemarker.domain.user.repository.UserRepository;
 import com.lovemarker.global.constant.ErrorCode;
 import com.lovemarker.global.exception.BadRequestException;
@@ -41,7 +42,7 @@ public class CoupleService {
 
     private User getUserByUserId(Long userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_FOUND_EXCEPTION, "존재하지 않는 유저입니다."));
+            .orElseThrow(() -> new UserNotFoundException(ErrorCode.NOT_FOUND_EXCEPTION, "존재하지 않는 유저입니다."));
     }
 
     private void validateJoinCouple(Long coupleId) {
