@@ -9,7 +9,7 @@ import com.lovemarker.domain.memory.fixture.AddressInfoFixture;
 import com.lovemarker.domain.memory.vo.AddressInfo;
 import com.lovemarker.domain.user.User;
 import com.lovemarker.domain.user.fixture.UserFixture;
-import com.lovemarker.global.exception.BadRequestException;
+import com.lovemarker.global.exception.ForbiddenException;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -51,14 +51,14 @@ class MemoryTest {
         }
 
         @Test
-        @DisplayName("예외(BadRequestException): 커플 정보가 없을 때")
+        @DisplayName("예외(ForbiddenException): 커플 정보가 없을 때")
         void exceptionWhenCoupleIsNull() {
             //given
             //when
             Exception exception = catchException(() -> new Memory(date, title, content, addressInfo.getAddress(), addressInfo.getPosition(), user, urls));
 
             //then
-            assertThat(exception).isInstanceOf(BadRequestException.class);
+            assertThat(exception).isInstanceOf(ForbiddenException.class);
         }
     }
 }

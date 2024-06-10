@@ -1,6 +1,6 @@
 package com.lovemarker.domain.couple;
 
-import com.lovemarker.domain.common.BaseTimeEntity;
+import com.lovemarker.global.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

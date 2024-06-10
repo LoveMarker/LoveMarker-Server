@@ -27,7 +27,6 @@ public class MemoryController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponseDto<CreateMemoryResponse> createMemory(
         @UserId Long userId, @ModelAttribute @Valid CreateMemoryRequest createMemoryRequest
-
     ) {
         List<String> urls = s3Service.uploadImages(createMemoryRequest.images());
         return ApiResponseDto.success(SuccessCode.CREATE_MEMORY_SUCCESS, memoryService.createMemory(
