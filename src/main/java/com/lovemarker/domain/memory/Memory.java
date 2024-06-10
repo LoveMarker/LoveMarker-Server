@@ -1,6 +1,6 @@
 package com.lovemarker.domain.memory;
 
-import com.lovemarker.domain.common.BaseTimeEntity;
+import com.lovemarker.global.entity.BaseTimeEntity;
 import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.memory.vo.AddressInfo;
 import com.lovemarker.domain.memory.vo.MemoryContent;

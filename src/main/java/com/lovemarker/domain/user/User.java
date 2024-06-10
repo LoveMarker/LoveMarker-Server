@@ -1,6 +1,6 @@
 package com.lovemarker.domain.user;
 
-import com.lovemarker.domain.common.BaseTimeEntity;
+import com.lovemarker.global.entity.BaseTimeEntity;
 import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.user.vo.SocialToken;
 import com.lovemarker.domain.user.vo.SocialType;

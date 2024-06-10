@@ -1,5 +1,6 @@
 package com.lovemarker.domain.memory.service;
 
+import com.lovemarker.global.aspect.CouplePermissionCheck;
 import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.memory.Memory;
 import com.lovemarker.domain.memory.dto.response.CreateMemoryResponse;
@@ -28,11 +29,12 @@ public class MemoryService {
     private final GeometryFactory geometryFactory;
 
     @Transactional
+    @CouplePermissionCheck
     public CreateMemoryResponse createMemory(Long userId, LocalDate date, String title, String content,
         Double latitude, Double longitude, String address, List<String> images
     ) {
         User user = getUserByUserId(userId);
-        validateCoupleConnection(user);
+//        validateCoupleConnection(user);
         Memory memory = new Memory(date, title, content, address, getPoint(latitude, longitude), user, images);
         memoryRepository.save(memory);
         return CreateMemoryResponse.of(memory.getMemoryId());
