@@ -109,6 +109,10 @@ public class Memory extends BaseTimeEntity {
         return user;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
     public List<String> getImages() {
         return images.stream()
             .map(MemoryImage::getUrl)

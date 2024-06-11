@@ -36,6 +36,8 @@ public class MemoryService {
         return CreateMemoryResponse.of(memory.getMemoryId());
     }
 
+
+
     private User getUserByUserId(Long userId) {
         return userRepository.findById(userId)
             .orElseThrow(() -> new UserNotFoundException(ErrorCode.NOT_FOUND_EXCEPTION, "존재하지 않는 유저입니다."));

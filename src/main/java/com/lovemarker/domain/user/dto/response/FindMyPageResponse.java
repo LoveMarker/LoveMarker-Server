@@ -1,4 +1,4 @@
-package com.lovemarker.domain.user.dto;
+package com.lovemarker.domain.user.dto.response;
 
 public record FindMyPageResponse(
     boolean isMatched,

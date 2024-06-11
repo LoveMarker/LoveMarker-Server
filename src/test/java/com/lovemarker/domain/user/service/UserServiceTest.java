@@ -9,7 +9,7 @@ import static org.mockito.BDDMockito.given;
 import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.couple.fixture.CoupleFixture;
 import com.lovemarker.domain.user.User;
-import com.lovemarker.domain.user.dto.FindMyPageResponse;
+import com.lovemarker.domain.user.dto.response.FindMyPageResponse;
 import com.lovemarker.domain.user.exception.UserNicknameDuplicateException;
 import com.lovemarker.domain.user.exception.UserNotFoundException;
 import com.lovemarker.domain.user.fixture.UserFixture;
