@@ -2,6 +2,7 @@ package com.lovemarker.domain.memory.controller;
 
 import com.lovemarker.domain.memory.dto.request.CreateMemoryRequest;
 import com.lovemarker.domain.memory.dto.response.CreateMemoryResponse;
+import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
 import com.lovemarker.domain.memory.service.MemoryService;
 import com.lovemarker.global.config.resolver.UserId;
 import com.lovemarker.global.constant.SuccessCode;
@@ -11,7 +12,9 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,5 +37,13 @@ public class MemoryController {
             createMemoryRequest.latitude(), createMemoryRequest.longitude(),  createMemoryRequest.address(),
             urls
         ));
+    }
+
+    @GetMapping("/{memoryId}")
+    public ApiResponseDto<FindMemoryDetail> findMemoryDetail(
+        @UserId Long userId, @PathVariable Long memoryId
+    ) {
+        return ApiResponseDto.success(SuccessCode.FIND_MEMORY_DETAIL_SUCCESS,
+            memoryService.findMemoryDetail(userId, memoryId));
     }
 }

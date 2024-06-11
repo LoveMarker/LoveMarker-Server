@@ -13,6 +13,7 @@ public enum SuccessCode {
     LOGIN_SUCCESS(HttpStatus.OK, "로그인에 성공했습니다."),
     UPDATE_USER_NICKNAME_SUCCESS(HttpStatus.OK, "닉네임 변경에 성공했습니다."),
     FIND_MY_PAGE_SUCCESS(HttpStatus.OK, "마이페이지 조회에 성공했습니다."),
+    FIND_MEMORY_DETAIL_SUCCESS(HttpStatus.OK, "추억 상세 조회에 성공했습니다."),
 
     // 201
     CREATE_INVITATION_CODE_SUCCESS(HttpStatus.CREATED, "초대 코드 생성을 성공했습니다."),
