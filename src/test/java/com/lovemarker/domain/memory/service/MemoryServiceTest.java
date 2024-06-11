@@ -9,6 +9,10 @@ import static org.mockito.BDDMockito.then;
 
 import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.couple.fixture.CoupleFixture;
+import com.lovemarker.domain.memory.Memory;
+import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
+import com.lovemarker.domain.memory.exception.MemoryNotFoundException;
+import com.lovemarker.domain.memory.fixture.MemoryFixture;
 import com.lovemarker.domain.memory.repository.MemoryRepository;
 import com.lovemarker.domain.user.User;
 import com.lovemarker.domain.user.exception.UserNotFoundException;
@@ -94,6 +98,41 @@ class MemoryServiceTest {
             //then
             assertThat(exception).isInstanceOf(ForbiddenException.class);
         }
+    }
 
+    @Nested
+    @DisplayName("findMemoryDetail 메서드 실행 시")
+    class FindMemoryDetailTest {
+
+        User user = UserFixture.user();
+        Couple couple = CoupleFixture.couple();
+
+        @Test
+        @DisplayName("성공")
+        void findMemoryDetail() {
+            //given
+            user.connectCouple(couple);
+            Memory memory = MemoryFixture.memory(user);
+            given(memoryRepository.findById(anyLong())).willReturn(Optional.ofNullable(memory));
+
+            //when
+            FindMemoryDetail result = memoryService.findMemoryDetail(1L, 1L);
+
+            //then
+            assertThat(result.date()).isEqualTo(memory.getDate());
+            assertThat(result.title()).isEqualTo(memory.getTitle());
+        }
+
+        @Test
+        @DisplayName("예외(MemoryNotFoundException): 존재하지 않는 추억")
+        void exceptionWhenNotFoundMemory() {
+            //given
+            //when
+            Exception exception = catchException(() -> memoryService.findMemoryDetail(1L, 1L));
+
+            //then
+            assertThat(exception).isInstanceOf(MemoryNotFoundException.class);
+
+        }
     }
 }
