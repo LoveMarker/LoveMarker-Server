@@ -12,6 +12,7 @@ import com.lovemarker.domain.couple.InviteCodeStrategy;
 import com.lovemarker.domain.couple.fixture.CoupleFixture;
 import com.lovemarker.domain.couple.repository.CoupleRepository;
 import com.lovemarker.domain.user.User;
+import com.lovemarker.domain.user.exception.UserNotFoundException;
 import com.lovemarker.domain.user.fixture.UserFixture;
 import com.lovemarker.domain.user.repository.UserRepository;
 import com.lovemarker.global.exception.BadRequestException;
@@ -132,6 +133,40 @@ class CoupleServiceTest {
 
             //then
             assertThat(exception).isInstanceOf(BadRequestException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("disconnectCouple 메서드 실행 시")
+    class DisconnectCoupleTest {
+
+        User user = UserFixture.user();
+        Couple couple = CoupleFixture.couple();
+
+        @Test
+        @DisplayName("성공")
+        void disconnectCouple() {
+            //given
+            user.connectCouple(couple);
+
+            given(userRepository.findById(anyLong())).willReturn(Optional.ofNullable(user));
+
+            //when
+            coupleService.disconnectCouple(1L);
+
+            //then
+            assertThat(user.getCouple()).isEqualTo(null);
+        }
+
+        @Test
+        @DisplayName("예외(UserNotFoundException): 존재하지 않는 유저")
+        void exceptionWhenUserNotFound() {
+            //given
+            //when
+            Exception exception = catchException(() -> coupleService.disconnectCouple(1L));
+
+            //then
+            assertThat(exception).isInstanceOf(UserNotFoundException.class);
         }
     }
 }
