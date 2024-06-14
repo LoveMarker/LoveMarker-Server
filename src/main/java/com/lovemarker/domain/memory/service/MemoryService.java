@@ -60,6 +60,16 @@ public class MemoryService {
         return FindMemoryListResponse.from(memories);
     }
 
+    @Transactional(readOnly = true)
+    public FindMemoryListResponse findMyMemoryList(Long userId, int page, int size) {
+        User user = getUserByUserId(userId);
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Memory> memories = memoryRepository.findByUser_UserIdOrderByCreatedAtDesc(
+            user.getUserId(), pageRequest
+        );
+        return FindMemoryListResponse.from(memories);
+    }
+
     private User getUserByUserId(Long userId) {
         return userRepository.findById(userId)
             .orElseThrow(() -> new UserNotFoundException(ErrorCode.NOT_FOUND_USER_EXCEPTION,

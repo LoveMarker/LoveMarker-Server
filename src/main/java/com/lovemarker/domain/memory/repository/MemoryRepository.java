@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MemoryRepository extends JpaRepository<Memory, Long> {
 
     Page<Memory> findByCouple_CoupleIdOrderByCreatedAtDesc(Long coupleId, Pageable pageable);
-
+    Page<Memory> findByUser_UserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
 }
