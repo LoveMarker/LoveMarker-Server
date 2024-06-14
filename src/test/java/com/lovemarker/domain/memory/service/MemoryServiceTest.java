@@ -178,4 +178,44 @@ class MemoryServiceTest {
             assertThat(exception).isInstanceOf(UserNotFoundException.class);
         }
     }
+
+    @Nested
+    @DisplayName("findMyMemoryList 메서드 실행 시")
+    class FindMyMemoryListTest {
+
+        User user = UserFixture.user();
+        Couple couple = CoupleFixture.couple();
+        Memory memory;
+        List<Memory> memoryList;
+
+        @Test
+        @DisplayName("성공")
+        void findMemoryList() {
+            //given
+            user.connectCouple(couple);
+            memory = MemoryFixture.memory(user);
+            memoryList = List.of(memory);
+            Page<Memory> page = new PageImpl<>(memoryList);
+            given(userRepository.findById(any())).willReturn(Optional.ofNullable(user));
+            given(memoryRepository.findByUser_UserIdOrderByCreatedAtDesc(any(), any()))
+                .willReturn(page);
+
+            //when
+            FindMemoryListResponse result = memoryService.findMyMemoryList(1L, 0, 10);
+
+            //then
+            assertThat(result.pageInfo().totalElements()).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("예외(UserNotFoundException): 존재하지 않는 유저")
+        void exceptionWhenNotFoundUser() {
+            //given
+            //when
+            Exception exception = catchException(() -> memoryService.findMyMemoryList(1L, 0, 10));
+
+            //then
+            assertThat(exception).isInstanceOf(UserNotFoundException.class);
+        }
+    }
 }
