@@ -16,6 +16,7 @@ public enum SuccessCode {
     FIND_MEMORY_DETAIL_SUCCESS(HttpStatus.OK, "추억 상세 조회에 성공했습니다."),
     FIND_MEMORY_LIST_SUCCESS(HttpStatus.OK, "추억 리스트뷰 조회에 성공했습니다."),
     FIND_MY_MEMORY_LIST_SUCCESS(HttpStatus.OK, "내가 올린 추억 조회에 성공했습니다."),
+    DISCONNECT_COUPLE_SUCCESS(HttpStatus.OK, "커플 연결 해제에 성공했습니다."),
 
     // 201
     CREATE_INVITATION_CODE_SUCCESS(HttpStatus.CREATED, "초대 코드 생성을 성공했습니다."),
