@@ -118,4 +118,50 @@ class MemoryControllerTest extends BaseControllerTest {
                 )
             ));
     }
+
+    @Test
+    @DisplayName("성공: 내가 올린 추억 리스트 조회 api 호출 시")
+    void findMyMemoryList() throws Exception {
+        //given
+        Long userId = 1L;
+        FindMemoryResponse findMemoryResponse = new FindMemoryResponse(1L, "title",
+            LocalDate.now(), "address", "url");
+        PageInfo pageInfo = new PageInfo(1, false);
+        FindMemoryListResponse response = new FindMemoryListResponse(pageInfo, List.of(findMemoryResponse));
+
+        given(memoryService.findMyMemoryList(any(), anyInt(), anyInt())).willReturn(response);
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("page", "0");
+        params.add("size", "10");
+
+        //when
+        ResultActions resultActions = mockMvc.perform(get("/api/memory/me")
+            .header("userId", userId)
+            .params(params));
+
+        //then
+        resultActions.andDo(
+            restDocs.document(
+                requestHeaders(
+                    headerWithName("userId").description("유저 아이디")
+                ),
+                queryParameters(
+                    parameterWithName("page").description("page"),
+                    parameterWithName("size").description("size")
+                ),
+                responseFields(
+                    fieldWithPath("status").type(NUMBER).description("상태 코드"),
+                    fieldWithPath("success").type(BOOLEAN).description("성공 여부"),
+                    fieldWithPath("message").type(STRING).description("메시지"),
+                    fieldWithPath("data.pageInfo.totalElements").type(NUMBER).description("총 데이터 수"),
+                    fieldWithPath("data.pageInfo.hasNext").type(BOOLEAN).description("다음 페이지 존재 여부"),
+                    fieldWithPath("data.memories[].memoryId").type(NUMBER).description("추억 ID"),
+                    fieldWithPath("data.memories[].title").type(STRING).description("제목"),
+                    fieldWithPath("data.memories[].date").type(STRING).description("날짜"),
+                    fieldWithPath("data.memories[].address").type(STRING).description("주소"),
+                    fieldWithPath("data.memories[].image").type(STRING).description("대표 이미지")
+                )
+            ));
+    }
 }
