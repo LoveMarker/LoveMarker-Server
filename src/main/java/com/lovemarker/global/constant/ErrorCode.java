@@ -30,6 +30,7 @@ public enum ErrorCode {
     // 404
     NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "존재하지 않는 리소스입니다."),
     NOT_FOUND_USER_EXCEPTION(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다"),
+    NOT_FOUND_MEMORY_EXCEPTION(HttpStatus.NOT_FOUND, "존재하지 않는 추억입니다."),
 
     // 500
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류 발생");

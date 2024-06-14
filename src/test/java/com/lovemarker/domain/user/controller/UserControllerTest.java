@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 
 import com.lovemarker.base.BaseControllerTest;
-import com.lovemarker.domain.user.dto.FindMyPageResponse;
+import com.lovemarker.domain.user.dto.response.FindMyPageResponse;
 import com.lovemarker.domain.user.dto.request.UpdateUserNicknameRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

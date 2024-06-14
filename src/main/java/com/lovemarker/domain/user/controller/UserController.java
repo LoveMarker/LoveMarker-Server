@@ -1,6 +1,6 @@
 package com.lovemarker.domain.user.controller;
 
-import com.lovemarker.domain.user.dto.FindMyPageResponse;
+import com.lovemarker.domain.user.dto.response.FindMyPageResponse;
 import com.lovemarker.domain.user.dto.request.UpdateUserNicknameRequest;
 import com.lovemarker.domain.user.service.UserService;
 import com.lovemarker.global.config.resolver.UserId;

@@ -2,6 +2,8 @@ package com.lovemarker.domain.memory.service;
 
 import com.lovemarker.domain.memory.Memory;
 import com.lovemarker.domain.memory.dto.response.CreateMemoryResponse;
+import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
+import com.lovemarker.domain.memory.exception.MemoryNotFoundException;
 import com.lovemarker.domain.memory.repository.MemoryRepository;
 import com.lovemarker.domain.user.User;
 import com.lovemarker.domain.user.exception.UserNotFoundException;
@@ -10,6 +12,7 @@ import com.lovemarker.global.aspect.CouplePermissionCheck;
 import com.lovemarker.global.constant.ErrorCode;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -36,9 +39,22 @@ public class MemoryService {
         return CreateMemoryResponse.of(memory.getMemoryId());
     }
 
+    @Transactional(readOnly = true)
+    public FindMemoryDetail findMemoryDetail(Long userId, Long memoryId) {
+        Memory memory = getMemoryByMemoryId(memoryId);
+        return FindMemoryDetail.of(memory, Objects.equals(memory.getUser().getUserId(), userId));
+    }
+
     private User getUserByUserId(Long userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() -> new UserNotFoundException(ErrorCode.NOT_FOUND_EXCEPTION, "존재하지 않는 유저입니다."));
+            .orElseThrow(() -> new UserNotFoundException(ErrorCode.NOT_FOUND_USER_EXCEPTION,
+                ErrorCode.NOT_FOUND_USER_EXCEPTION.getMessage()));
+    }
+
+    private Memory getMemoryByMemoryId(Long memoryId) {
+        return memoryRepository.findById(memoryId)
+            .orElseThrow(() -> new MemoryNotFoundException(ErrorCode.NOT_FOUND_MEMORY_EXCEPTION,
+                ErrorCode.NOT_FOUND_MEMORY_EXCEPTION.getMessage()));
     }
 
     private Point getPoint(Double latitude, Double longitude) {
