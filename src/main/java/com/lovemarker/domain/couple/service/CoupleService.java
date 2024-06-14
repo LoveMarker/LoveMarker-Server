@@ -7,6 +7,7 @@ import com.lovemarker.domain.couple.repository.CoupleRepository;
 import com.lovemarker.domain.user.User;
 import com.lovemarker.domain.user.exception.UserNotFoundException;
 import com.lovemarker.domain.user.repository.UserRepository;
+import com.lovemarker.global.aspect.CouplePermissionCheck;
 import com.lovemarker.global.constant.ErrorCode;
 import com.lovemarker.global.exception.BadRequestException;
 import com.lovemarker.global.exception.NotFoundException;
@@ -38,6 +39,13 @@ public class CoupleService {
         Couple couple = getCoupleByInviteCode(invitationCode);
         validateJoinCouple(couple.getCoupleId());
         user.connectCouple(couple);
+    }
+
+    @Transactional
+    @CouplePermissionCheck
+    public void disconnectCouple(Long userId) {
+        User user = getUserByUserId(userId);
+        user.disconnectCouple();
     }
 
     private User getUserByUserId(Long userId) {
