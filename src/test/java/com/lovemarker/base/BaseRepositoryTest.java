@@ -1,6 +1,7 @@
 package com.lovemarker.base;
 
 import com.lovemarker.domain.couple.repository.CoupleRepository;
+import com.lovemarker.domain.memory.repository.MemoryRepository;
 import com.lovemarker.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,4 +18,7 @@ public abstract class BaseRepositoryTest {
 
     @Autowired
     protected CoupleRepository coupleRepository;
+
+    @Autowired
+    protected MemoryRepository memoryRepository;
 }

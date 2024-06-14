@@ -11,6 +11,7 @@ import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.couple.fixture.CoupleFixture;
 import com.lovemarker.domain.memory.Memory;
 import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
+import com.lovemarker.domain.memory.dto.response.FindMemoryListResponse;
 import com.lovemarker.domain.memory.exception.MemoryNotFoundException;
 import com.lovemarker.domain.memory.fixture.MemoryFixture;
 import com.lovemarker.domain.memory.repository.MemoryRepository;
@@ -30,6 +31,8 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 @ExtendWith(MockitoExtension.class)
 class MemoryServiceTest {
@@ -133,6 +136,46 @@ class MemoryServiceTest {
             //then
             assertThat(exception).isInstanceOf(MemoryNotFoundException.class);
 
+        }
+    }
+
+    @Nested
+    @DisplayName("findMemoryList 메서드 실행 시")
+    class FindMemoryListTest {
+
+        User user = UserFixture.user();
+        Couple couple = CoupleFixture.couple();
+        Memory memory;
+        List<Memory> memoryList;
+
+        @Test
+        @DisplayName("성공")
+        void findMemoryList() {
+            //given
+            user.connectCouple(couple);
+            memory = MemoryFixture.memory(user);
+            memoryList = List.of(memory);
+            Page<Memory> page = new PageImpl<>(memoryList);
+            given(userRepository.findById(any())).willReturn(Optional.ofNullable(user));
+            given(memoryRepository.findByCouple_CoupleIdOrderByCreatedAtDesc(any(), any()))
+                .willReturn(page);
+
+            //when
+            FindMemoryListResponse result = memoryService.findMemoryList(1L, 0, 10);
+
+            //then
+            assertThat(result.pageInfo().totalElements()).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("예외(UserNotFoundException): 존재하지 않는 유저")
+        void exceptionWhenNotFoundUser() {
+            //given
+            //when
+            Exception exception = catchException(() -> memoryService.findMemoryList(1L, 0, 10));
+
+            //then
+            assertThat(exception).isInstanceOf(UserNotFoundException.class);
         }
     }
 }
