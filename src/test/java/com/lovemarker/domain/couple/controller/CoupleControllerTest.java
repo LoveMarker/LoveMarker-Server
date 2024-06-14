@@ -10,6 +10,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import com.lovemarker.base.BaseControllerTest;
@@ -80,6 +81,31 @@ class CoupleControllerTest extends BaseControllerTest {
                 ),
                 requestFields(
                     fieldWithPath("invitationCode").type(STRING).description("초대 코드")
+                ),
+                responseFields(
+                    fieldWithPath("status").type(NUMBER).description("상태 코드"),
+                    fieldWithPath("success").type(BOOLEAN).description("성공 여부"),
+                    fieldWithPath("message").type(STRING).description("메시지"),
+                    fieldWithPath("data").ignored()
+                )
+            ));
+    }
+
+    @Test
+    @DisplayName("성공: 커플 연결 해제 api 호출 시")
+    void disconnectCouple() throws Exception {
+        //given
+        Long userId = 1L;
+
+        //when
+        ResultActions resultActions = mockMvc.perform(delete("/api/couple")
+            .header("userId", userId));
+
+        //then
+        resultActions
+            .andDo(restDocs.document(
+                requestHeaders(
+                    headerWithName("userId").description("유저 아이디")
                 ),
                 responseFields(
                     fieldWithPath("status").type(NUMBER).description("상태 코드"),

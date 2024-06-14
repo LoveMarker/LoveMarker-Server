@@ -79,4 +79,25 @@ class UserTest {
             assertThat(exception).isInstanceOf(BadRequestException.class);
         }
     }
+
+    @Nested
+    @DisplayName("커플 연결 해제 시")
+    class DisconnectCoupleTest {
+
+        User user = UserFixture.user();
+        Couple couple = CoupleFixture.couple();
+
+        @Test
+        @DisplayName("성공")
+        void disconnectCouple() {
+            //given
+            user.connectCouple(couple);
+
+            //when
+            user.disconnectCouple();
+
+            //then
+            assertThat(user.getCouple()).isNull();
+        }
+    }
 }
