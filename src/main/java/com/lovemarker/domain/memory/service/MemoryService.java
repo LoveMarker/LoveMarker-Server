@@ -1,8 +1,10 @@
 package com.lovemarker.domain.memory.service;
 
+import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.memory.Memory;
 import com.lovemarker.domain.memory.dto.response.CreateMemoryResponse;
 import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
+import com.lovemarker.domain.memory.dto.response.FindMemoryListResponse;
 import com.lovemarker.domain.memory.exception.MemoryNotFoundException;
 import com.lovemarker.domain.memory.repository.MemoryRepository;
 import com.lovemarker.domain.user.User;
@@ -17,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +47,17 @@ public class MemoryService {
     public FindMemoryDetail findMemoryDetail(Long userId, Long memoryId) {
         Memory memory = getMemoryByMemoryId(memoryId);
         return FindMemoryDetail.of(memory, Objects.equals(memory.getUser().getUserId(), userId));
+    }
+
+    @Transactional(readOnly = true)
+    @CouplePermissionCheck
+    public FindMemoryListResponse findMemoryList(Long userId, int page, int size) {
+        User user = getUserByUserId(userId);
+        Couple couple = user.getCouple();
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Memory> memories = memoryRepository.findByCouple_CoupleIdOrderByCreatedAtDesc(
+            couple.getCoupleId(), pageRequest);
+        return FindMemoryListResponse.from(memories);
     }
 
     private User getUserByUserId(Long userId) {
