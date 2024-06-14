@@ -56,4 +56,12 @@ public class MemoryController {
         return ApiResponseDto.success(SuccessCode.FIND_MEMORY_LIST_SUCCESS,
             memoryService.findMemoryList(userId, page, size));
     }
+
+    @GetMapping("/me")
+    public ApiResponseDto<FindMemoryListResponse> findMyMemoryList(
+        @UserId Long userId, @RequestParam int page, @RequestParam int size
+    ) {
+        return ApiResponseDto.success(SuccessCode.FIND_MY_MEMORY_LIST_SUCCESS,
+            memoryService.findMyMemoryList(userId, page, size));
+    }
 }
