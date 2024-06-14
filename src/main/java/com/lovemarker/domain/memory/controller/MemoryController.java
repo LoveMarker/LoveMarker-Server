@@ -3,6 +3,7 @@ package com.lovemarker.domain.memory.controller;
 import com.lovemarker.domain.memory.dto.request.CreateMemoryRequest;
 import com.lovemarker.domain.memory.dto.response.CreateMemoryResponse;
 import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
+import com.lovemarker.domain.memory.dto.response.FindMemoryListResponse;
 import com.lovemarker.domain.memory.service.MemoryService;
 import com.lovemarker.global.config.resolver.UserId;
 import com.lovemarker.global.constant.SuccessCode;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -45,5 +47,13 @@ public class MemoryController {
     ) {
         return ApiResponseDto.success(SuccessCode.FIND_MEMORY_DETAIL_SUCCESS,
             memoryService.findMemoryDetail(userId, memoryId));
+    }
+
+    @GetMapping("/list-view")
+    public ApiResponseDto<FindMemoryListResponse> findMemoryList(
+        @UserId Long userId, @RequestParam int page, @RequestParam int size
+    ) {
+        return ApiResponseDto.success(SuccessCode.FIND_MEMORY_LIST_SUCCESS,
+            memoryService.findMemoryList(userId, page, size));
     }
 }
