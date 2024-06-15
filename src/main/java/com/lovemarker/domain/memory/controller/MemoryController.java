@@ -2,6 +2,7 @@ package com.lovemarker.domain.memory.controller;
 
 import com.lovemarker.domain.memory.dto.request.CreateMemoryRequest;
 import com.lovemarker.domain.memory.dto.response.CreateMemoryResponse;
+import com.lovemarker.domain.memory.dto.response.FindMemoryByRadiusResponse;
 import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
 import com.lovemarker.domain.memory.dto.response.FindMemoryListResponse;
 import com.lovemarker.domain.memory.service.MemoryService;
@@ -63,5 +64,14 @@ public class MemoryController {
     ) {
         return ApiResponseDto.success(SuccessCode.FIND_MY_MEMORY_LIST_SUCCESS,
             memoryService.findMyMemoryList(userId, page, size));
+    }
+
+    @GetMapping("/map-view")
+    public ApiResponseDto<FindMemoryByRadiusResponse> findMemoryByRadius(
+        @UserId Long userId, @RequestParam Double radius,
+        @RequestParam Double latitude, @RequestParam Double longitude
+    ) {
+        return ApiResponseDto.success(SuccessCode.FIND_MEMORY_MAP_VIEW_SUCCESS,
+            memoryService.findMemoryByRadius(userId, radius, latitude, longitude));
     }
 }

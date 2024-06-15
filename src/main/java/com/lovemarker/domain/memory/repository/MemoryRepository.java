@@ -15,7 +15,7 @@ public interface MemoryRepository extends JpaRepository<Memory, Long> {
     Page<Memory> findByUser_UserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
 
     @Query("SELECT m FROM Memory m WHERE m.couple.coupleId = :coupleId AND "
-        + "ST_Dwithin(m.addressInfo.position, :point, :radius, false) = true")
+        + "ST_Dwithin(m.addressInfo.position, :point, :radius) IS TRUE")
     List<Memory> findByRadius(@Param("coupleId") Long coupleId, @Param("point") Point point,
-        @Param("radius") int radius);
+        @Param("radius") double radius);
 }

@@ -75,7 +75,7 @@ public class MemoryService {
     @Transactional(readOnly = true)
     @CouplePermissionCheck
     public FindMemoryByRadiusResponse findMemoryByRadius(
-        Long userId, int radius, Double latitude, Double longitude
+        Long userId, Double radius, Double latitude, Double longitude
     ) {
         User user = getUserByUserId(userId);
         Couple couple = user.getCouple();
