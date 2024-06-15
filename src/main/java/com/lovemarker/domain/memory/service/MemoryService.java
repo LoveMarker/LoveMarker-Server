@@ -70,6 +70,8 @@ public class MemoryService {
         return FindMemoryListResponse.from(memories);
     }
 
+
+
     private User getUserByUserId(Long userId) {
         return userRepository.findById(userId)
             .orElseThrow(() -> new UserNotFoundException(ErrorCode.NOT_FOUND_USER_EXCEPTION,
