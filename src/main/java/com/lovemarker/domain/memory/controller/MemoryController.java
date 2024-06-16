@@ -68,10 +68,10 @@ public class MemoryController {
 
     @GetMapping("/map-view")
     public ApiResponseDto<FindMemoryByRadiusResponse> findMemoryByRadius(
-        @UserId Long userId, @RequestParam Double radius,
+        @UserId Long userId, @RequestParam(required = false) Double radius,
         @RequestParam Double latitude, @RequestParam Double longitude
     ) {
         return ApiResponseDto.success(SuccessCode.FIND_MEMORY_MAP_VIEW_SUCCESS,
-            memoryService.findMemoryByRadius(userId, radius, latitude, longitude));
+            memoryService.findMemoryByRadius(userId, radius == null ? 3000 : radius, latitude, longitude));
     }
 }
