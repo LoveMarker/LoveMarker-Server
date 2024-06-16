@@ -101,8 +101,8 @@ class MemoryControllerTest extends BaseControllerTest {
                     headerWithName("userId").description("유저 아이디")
                 ),
                 queryParameters(
-                    parameterWithName("page").description("page"),
-                    parameterWithName("size").description("size")
+                    parameterWithName("page").description("page").optional(),
+                    parameterWithName("size").description("size").optional()
                 ),
                 responseFields(
                     fieldWithPath("status").type(NUMBER).description("상태 코드"),
@@ -147,8 +147,8 @@ class MemoryControllerTest extends BaseControllerTest {
                     headerWithName("userId").description("유저 아이디")
                 ),
                 queryParameters(
-                    parameterWithName("page").description("page"),
-                    parameterWithName("size").description("size")
+                    parameterWithName("page").description("page").optional(),
+                    parameterWithName("size").description("size").optional()
                 ),
                 responseFields(
                     fieldWithPath("status").type(NUMBER).description("상태 코드"),

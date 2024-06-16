@@ -52,18 +52,20 @@ public class MemoryController {
 
     @GetMapping("/list-view")
     public ApiResponseDto<FindMemoryListResponse> findMemoryList(
-        @UserId Long userId, @RequestParam int page, @RequestParam int size
+        @UserId Long userId,
+        @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size
     ) {
         return ApiResponseDto.success(SuccessCode.FIND_MEMORY_LIST_SUCCESS,
-            memoryService.findMemoryList(userId, page, size));
+            memoryService.findMemoryList(userId, page == null ? 0 : page, size == null ? 10 : size));
     }
 
     @GetMapping("/me")
     public ApiResponseDto<FindMemoryListResponse> findMyMemoryList(
-        @UserId Long userId, @RequestParam int page, @RequestParam int size
+        @UserId Long userId,
+        @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size
     ) {
         return ApiResponseDto.success(SuccessCode.FIND_MY_MEMORY_LIST_SUCCESS,
-            memoryService.findMyMemoryList(userId, page, size));
+            memoryService.findMyMemoryList(userId, page == null ? 0 : page, size == null ? 10 : size));
     }
 
     @GetMapping("/map-view")
