@@ -3,6 +3,7 @@ package com.lovemarker.domain.memory.service;
 import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.memory.Memory;
 import com.lovemarker.domain.memory.dto.response.CreateMemoryResponse;
+import com.lovemarker.domain.memory.dto.response.FindMemoryByRadiusResponse;
 import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
 import com.lovemarker.domain.memory.dto.response.FindMemoryListResponse;
 import com.lovemarker.domain.memory.exception.MemoryNotFoundException;
@@ -15,6 +16,7 @@ import com.lovemarker.global.constant.ErrorCode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -68,6 +70,22 @@ public class MemoryService {
             user.getUserId(), pageRequest
         );
         return FindMemoryListResponse.from(memories);
+    }
+
+    @Transactional(readOnly = true)
+    @CouplePermissionCheck
+    public FindMemoryByRadiusResponse findMemoryByRadius(
+        Long userId, Double radius, Double latitude, Double longitude
+    ) {
+        User user = getUserByUserId(userId);
+        Couple couple = user.getCouple();
+        List<Memory> memoryList = memoryRepository
+            .findByRadius(couple.getCoupleId(), getPoint(latitude, longitude), radius);
+        List<FindMemoryByRadiusResponse.FindMemoryResponse> memoryResponses = memoryList.stream()
+            .map(memory -> FindMemoryByRadiusResponse.FindMemoryResponse.of(memory.getMemoryId(),
+                memory.getAddressInfo().getPosition().getX(), memory.getAddressInfo().getPosition().getY()))
+            .collect(Collectors.toList());
+        return FindMemoryByRadiusResponse.of(memoryResponses);
     }
 
     private User getUserByUserId(Long userId) {

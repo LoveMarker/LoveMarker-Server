@@ -1,9 +1,11 @@
 package com.lovemarker.domain.memory.controller;
 
 import static javax.management.openmbean.SimpleType.BOOLEAN;
+import static javax.management.openmbean.SimpleType.DOUBLE;
 import static javax.management.openmbean.SimpleType.STRING;
 import static javax.swing.text.html.parser.DTDConstants.NUMBER;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -17,6 +19,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 
 import com.lovemarker.base.BaseControllerTest;
+import com.lovemarker.domain.memory.dto.response.FindMemoryByRadiusResponse;
 import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
 import com.lovemarker.domain.memory.dto.response.FindMemoryListResponse;
 import com.lovemarker.domain.memory.dto.response.FindMemoryListResponse.FindMemoryResponse;
@@ -101,8 +104,8 @@ class MemoryControllerTest extends BaseControllerTest {
                     headerWithName("userId").description("유저 아이디")
                 ),
                 queryParameters(
-                    parameterWithName("page").description("page"),
-                    parameterWithName("size").description("size")
+                    parameterWithName("page").description("page").optional(),
+                    parameterWithName("size").description("size").optional()
                 ),
                 responseFields(
                     fieldWithPath("status").type(NUMBER).description("상태 코드"),
@@ -147,8 +150,8 @@ class MemoryControllerTest extends BaseControllerTest {
                     headerWithName("userId").description("유저 아이디")
                 ),
                 queryParameters(
-                    parameterWithName("page").description("page"),
-                    parameterWithName("size").description("size")
+                    parameterWithName("page").description("page").optional(),
+                    parameterWithName("size").description("size").optional()
                 ),
                 responseFields(
                     fieldWithPath("status").type(NUMBER).description("상태 코드"),
@@ -161,6 +164,48 @@ class MemoryControllerTest extends BaseControllerTest {
                     fieldWithPath("data.memories[].date").type(STRING).description("날짜"),
                     fieldWithPath("data.memories[].address").type(STRING).description("주소"),
                     fieldWithPath("data.memories[].image").type(STRING).description("대표 이미지")
+                )
+            ));
+    }
+
+    @Test
+    @DisplayName("성공: 추억 지도뷰 조회 api 호출 시")
+    void findMemoryByRadius() throws Exception {
+        //given
+        Long userId = 1L;
+        FindMemoryByRadiusResponse.FindMemoryResponse findMemoryResponse = new FindMemoryByRadiusResponse.FindMemoryResponse(1L, 3.2, 5.4);
+        FindMemoryByRadiusResponse response = new FindMemoryByRadiusResponse(List.of(findMemoryResponse));
+
+        given(memoryService.findMemoryByRadius(any(), anyDouble(), anyDouble(), anyDouble())).willReturn(response);
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("radius", "1000");
+        params.add("latitude", "3.2");
+        params.add("longitude", "5.4");
+
+        //when
+        ResultActions resultActions = mockMvc.perform(get("/api/memory/map-view")
+            .header("userId", userId)
+            .params(params));
+
+        //then
+        resultActions.andDo(
+            restDocs.document(
+                requestHeaders(
+                    headerWithName("userId").description("유저 아이디")
+                ),
+                queryParameters(
+                    parameterWithName("radius").description("반경 x m").optional(),
+                    parameterWithName("latitude").description("x 좌표"),
+                    parameterWithName("longitude").description("y 좌표")
+                ),
+                responseFields(
+                    fieldWithPath("status").type(NUMBER).description("상태 코드"),
+                    fieldWithPath("success").type(BOOLEAN).description("성공 여부"),
+                    fieldWithPath("message").type(STRING).description("메시지"),
+                    fieldWithPath("data.memories[].memoryId").type(NUMBER).description("추억 ID"),
+                    fieldWithPath("data.memories[].latitude").type(DOUBLE).description("x 좌표"),
+                    fieldWithPath("data.memories[].longitude").type(DOUBLE).description("y 좌표")
                 )
             ));
     }

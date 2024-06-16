@@ -3,13 +3,16 @@ package com.lovemarker.domain.memory.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchException;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.mock;
 
 import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.couple.fixture.CoupleFixture;
 import com.lovemarker.domain.memory.Memory;
+import com.lovemarker.domain.memory.dto.response.FindMemoryByRadiusResponse;
 import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
 import com.lovemarker.domain.memory.dto.response.FindMemoryListResponse;
 import com.lovemarker.domain.memory.exception.MemoryNotFoundException;
@@ -28,6 +31,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -213,6 +217,54 @@ class MemoryServiceTest {
             //given
             //when
             Exception exception = catchException(() -> memoryService.findMyMemoryList(1L, 0, 10));
+
+            //then
+            assertThat(exception).isInstanceOf(UserNotFoundException.class);
+        }
+    }
+
+    @Nested
+    @DisplayName("findMemoryByRadius 메서드 실행 시")
+    class FindMemoryByRadiusTest {
+
+        User user = UserFixture.user();
+        Couple couple = CoupleFixture.couple();
+        Memory memory;
+        List<Memory> memoryList;
+
+        @Test
+        @DisplayName("성공")
+        void findMemoryByRadius() {
+            //given
+            user.connectCouple(couple);
+
+            Point mockPoint = mock(Point.class);
+            given(mockPoint.getX()).willReturn(3.2);
+            given(mockPoint.getY()).willReturn(4.4);
+
+            memory = new Memory(LocalDate.now(), "title", "content", "address", mockPoint, user, List.of("url"));
+
+            memoryList = List.of(memory);
+            FindMemoryByRadiusResponse.FindMemoryResponse findMemoryResponse = new FindMemoryByRadiusResponse.FindMemoryResponse(
+                1L, 3.2, 4.4);
+            FindMemoryByRadiusResponse expected = new FindMemoryByRadiusResponse(List.of(findMemoryResponse));
+
+            given(userRepository.findById(any())).willReturn(Optional.ofNullable(user));
+            given(memoryRepository.findByRadius(any(), any(), anyDouble())).willReturn(memoryList);
+
+            //when
+            FindMemoryByRadiusResponse result = memoryService.findMemoryByRadius(1L, 30.4, 3.2, 4.4);
+
+            //then
+            assertThat(result.memories().size()).isEqualTo(expected.memories().size());
+        }
+
+        @Test
+        @DisplayName("예외(UserNotFoundException): 존재하지 않는 유저")
+        void exceptionWhenNotFoundUser() {
+            //given
+            //when
+            Exception exception = catchException(() -> memoryService.findMemoryByRadius(1L, 30.4, 3.2, 4.4));
 
             //then
             assertThat(exception).isInstanceOf(UserNotFoundException.class);

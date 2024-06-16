@@ -2,6 +2,7 @@ package com.lovemarker.domain.memory.controller;
 
 import com.lovemarker.domain.memory.dto.request.CreateMemoryRequest;
 import com.lovemarker.domain.memory.dto.response.CreateMemoryResponse;
+import com.lovemarker.domain.memory.dto.response.FindMemoryByRadiusResponse;
 import com.lovemarker.domain.memory.dto.response.FindMemoryDetail;
 import com.lovemarker.domain.memory.dto.response.FindMemoryListResponse;
 import com.lovemarker.domain.memory.service.MemoryService;
@@ -51,17 +52,28 @@ public class MemoryController {
 
     @GetMapping("/list-view")
     public ApiResponseDto<FindMemoryListResponse> findMemoryList(
-        @UserId Long userId, @RequestParam int page, @RequestParam int size
+        @UserId Long userId,
+        @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size
     ) {
         return ApiResponseDto.success(SuccessCode.FIND_MEMORY_LIST_SUCCESS,
-            memoryService.findMemoryList(userId, page, size));
+            memoryService.findMemoryList(userId, page == null ? 0 : page, size == null ? 10 : size));
     }
 
     @GetMapping("/me")
     public ApiResponseDto<FindMemoryListResponse> findMyMemoryList(
-        @UserId Long userId, @RequestParam int page, @RequestParam int size
+        @UserId Long userId,
+        @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size
     ) {
         return ApiResponseDto.success(SuccessCode.FIND_MY_MEMORY_LIST_SUCCESS,
-            memoryService.findMyMemoryList(userId, page, size));
+            memoryService.findMyMemoryList(userId, page == null ? 0 : page, size == null ? 10 : size));
+    }
+
+    @GetMapping("/map-view")
+    public ApiResponseDto<FindMemoryByRadiusResponse> findMemoryByRadius(
+        @UserId Long userId, @RequestParam(required = false) Double radius,
+        @RequestParam Double latitude, @RequestParam Double longitude
+    ) {
+        return ApiResponseDto.success(SuccessCode.FIND_MEMORY_MAP_VIEW_SUCCESS,
+            memoryService.findMemoryByRadius(userId, radius == null ? 3000 : radius, latitude, longitude));
     }
 }
