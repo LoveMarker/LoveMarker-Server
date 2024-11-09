@@ -5,18 +5,26 @@ plugins {
 
 	id 'jacoco'
 	id "org.sonarqube" version "4.4.1.3373"
+
+	//RestDocs
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 sonar {
 	properties {
-		property "sonar.projectKey", "lovemarker"
-		property "sonar.organization", "LoveMarker"
+		property "sonar.projectKey", "LoveMarker_LoveMarker-Server"
+		property "sonar.organization", "lovemarker"
 		property "sonar.host.url", "https://sonarcloud.io"
 	}
 }
 
 group = 'com'
 version = '0.0.1-SNAPSHOT'
+
+configurations {
+	//RestDocs
+	asciidoctorExt
+}
 
 java {
 	sourceCompatibility = '17'
@@ -46,15 +54,70 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.27'
 	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'com.h2database:h2'
+	// cache
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 	// hibernate-spatial
 	implementation 'org.hibernate:hibernate-spatial:6.1.7.Final'
 
+	//RestDocs
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	//JWT
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+	// google login
+	implementation group: 'com.google.api-client', name: 'google-api-client', version: '1.30.0'
+
+	// S3 AWS
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 	finalizedBy jacocoTestReport  // 테스트 실행 후 항상 report가 생성됩니다.
 }
+
+//RestDocs start
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+test {
+	outputs.dir snippetsDir
+}
+
+asciidoctor.doFirst {
+	delete file('src/main/resources/static/docs')
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExt'
+	dependsOn test
+}
+
+bootJar {
+	dependsOn asciidoctor
+	from("${asciidoctor.outputDir}/html5") {
+		into 'static/docs'
+	}
+}
+
+tasks.register('copyDocument', Copy) {
+	dependsOn asciidoctor
+	from file("build/docs/asciidoc")
+	into file("src/main/resources/static/docs")
+}
+
+build {
+	dependsOn copyDocument
+}
+//RestDocs end
 
 //jacoco start
 private excludedClassFilesForReport(classDirectories) {
@@ -69,7 +132,13 @@ private excludedClassFilesForReport(classDirectories) {
 						"**/exception/**",
 						"**/Mock**",
 						"**/aspect/**",
-						"**/scheduler/**"
+						"**/scheduler/**",
+						"**/global/**",
+						"**/common/**",
+						"**/*JwtService*",
+						"**/*TokenCacheService*",
+						"**/*SignInService*",
+						"**/*MemoryController*"
 				])
 			})
 	)
