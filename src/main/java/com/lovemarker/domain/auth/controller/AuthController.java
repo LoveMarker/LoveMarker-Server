@@ -25,10 +25,11 @@ public class AuthController {
 
     @PostMapping
     public ApiResponseDto<SignInResponse> signIn(
+        @RequestHeader @NotBlank String token,
         @Valid @RequestBody final SignInRequest signInRequest
     ) {
         return ApiResponseDto.success(SuccessCode.LOGIN_SUCCESS,
-            authService.signIn(signInRequest.token(), signInRequest.provider()));
+            authService.signIn(token, signInRequest.provider()));
     }
 
     @GetMapping("/reissue-token")
