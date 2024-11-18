@@ -31,9 +31,8 @@ public class UserIdResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(@NotNull MethodParameter parameter, ModelAndViewContainer modelAndViewContainer, @NotNull NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         final HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String accessToken = request.getHeader("accessToken");
-        String refreshToken = request.getHeader("refreshToken");
 
-        if (accessToken == null || refreshToken == null) {
+        if (accessToken == null) {
             throw new NullAccessTokenException(ErrorCode.NULL_ACCESS_TOKEN_EXCEPTION, ErrorCode.NULL_ACCESS_TOKEN_EXCEPTION.getMessage());
         }
 
