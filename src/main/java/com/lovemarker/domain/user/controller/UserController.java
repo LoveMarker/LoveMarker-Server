@@ -1,7 +1,8 @@
 package com.lovemarker.domain.user.controller;
 
-import com.lovemarker.domain.user.dto.response.FindMyPageResponse;
 import com.lovemarker.domain.user.dto.request.UpdateUserNicknameRequest;
+import com.lovemarker.domain.user.dto.response.FindMyPageResponse;
+import com.lovemarker.domain.user.dto.response.UpdateUserNicknameResponse;
 import com.lovemarker.domain.user.service.UserService;
 import com.lovemarker.global.config.resolver.UserId;
 import com.lovemarker.global.constant.SuccessCode;
@@ -29,11 +30,11 @@ public class UserController {
     }
 
     @PatchMapping("/nickname")
-    public ApiResponseDto updateUserNickname(
+    public ApiResponseDto<UpdateUserNicknameResponse> updateUserNickname(
         @UserId Long userId,
         @Valid @RequestBody final UpdateUserNicknameRequest updateUserNicknameRequest
     ) {
-        userService.updateUserNickname(userId, updateUserNicknameRequest.nickname());
-        return ApiResponseDto.success(SuccessCode.UPDATE_USER_NICKNAME_SUCCESS);
+        return ApiResponseDto.success(SuccessCode.UPDATE_USER_NICKNAME_SUCCESS,
+            userService.updateUserNickname(userId, updateUserNicknameRequest.nickname()));
     }
 }

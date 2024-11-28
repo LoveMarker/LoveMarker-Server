@@ -3,6 +3,7 @@ package com.lovemarker.domain.user.service;
 import com.lovemarker.domain.couple.Couple;
 import com.lovemarker.domain.user.User;
 import com.lovemarker.domain.user.dto.response.FindMyPageResponse;
+import com.lovemarker.domain.user.dto.response.UpdateUserNicknameResponse;
 import com.lovemarker.domain.user.exception.UserNicknameDuplicateException;
 import com.lovemarker.domain.user.exception.UserNotFoundException;
 import com.lovemarker.domain.user.repository.UserRepository;
@@ -21,9 +22,11 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void updateUserNickname(Long userId, String nickname) {
+    public UpdateUserNicknameResponse updateUserNickname(Long userId, String nickname) {
         checkDuplicatedNickname(nickname);
-        getUserByUserId(userId).updateUserNickname(nickname);
+        User user = getUserByUserId(userId);
+        user.updateUserNickname(nickname);
+        return UpdateUserNicknameResponse.from(user);
     }
 
     @Transactional(readOnly = true)
