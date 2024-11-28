@@ -3,7 +3,9 @@ package com.lovemarker.global.exception;
 import com.lovemarker.global.constant.ErrorCode;
 import com.lovemarker.global.dto.ApiResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -38,6 +41,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected ApiResponseDto<Object> handleException(final Exception error, final HttpServletRequest request) {
+        log.error(error.getMessage());
+        log.error(Arrays.toString(error.getStackTrace()));
         return ApiResponseDto.error(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 
