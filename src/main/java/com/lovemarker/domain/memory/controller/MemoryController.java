@@ -34,7 +34,7 @@ public class MemoryController {
     public ApiResponseDto<CreateMemoryResponse> createMemory(
         @UserId Long userId, @ModelAttribute @Valid CreateMemoryRequest createMemoryRequest
     ) {
-        List<String> urls = s3Service.uploadImages(List.of(createMemoryRequest.images()));
+        List<String> urls = s3Service.uploadImages(createMemoryRequest.images());
         return ApiResponseDto.success(SuccessCode.CREATE_MEMORY_SUCCESS, memoryService.createMemory(
            userId, createMemoryRequest.date(), createMemoryRequest.title(), createMemoryRequest.content(),
             createMemoryRequest.latitude(), createMemoryRequest.longitude(),  createMemoryRequest.address(),
